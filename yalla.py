@@ -2,6 +2,9 @@
 import iterm2
 import AppKit
 
+backendDir = '~/Workspace/module-catalog-pim'
+frontendDir = '~/Workspace/web-catalog-pim'
+
 # Launch the app if needed
 bundle = "com.googlecode.iterm2"
 if not AppKit.NSRunningApplication.runningApplicationsWithBundleIdentifier_(bundle):
@@ -18,7 +21,7 @@ async def get_current_window(app):
   return curr_win
 
 async def main(connection):
-  # Grab the App instance which is a container to get iTerm2 components from
+  # Get the instance of currently running app
   app = await iterm2.async_get_app(connection, True)
   win = await get_current_window(app)
 
@@ -27,7 +30,15 @@ async def main(connection):
   right = await left.async_split_pane(vertical=True)
 
   # Set the tab title for this session
-  await win.async_set_title("Running: API + frontend")
+  await win.async_set_title("Catalog PIM")
+
+  # Move to the backend dir and run the setup
+  await left.async_send_text(f"cd {backendDir}\n")
+  await left.async_send_text("yarn dev\n")
+
+  # Start frontend by sending text sequences as if we typed them in the terminal
+  await right.async_send_text(f"cd {frontendDir}\n")
+  await right.async_send_text("yarn dev\n")
 
 try:
   iterm2.run_until_complete(main, True)
