@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import iterm2
 import AppKit
 
@@ -23,14 +24,14 @@ async def get_current_window(app):
 async def main(connection):
   # Get the instance of currently running app
   app = await iterm2.async_get_app(connection, True)
-  win = await get_current_window(app)
+  initial_win = await get_current_window(app)
 
   # Create two splits here
-  left = win.current_tab.current_session
+  left = initial_win.current_tab.current_session
   right = await left.async_split_pane(vertical=True)
 
   # Set the tab title for this session
-  await win.async_set_title("Catalog PIM")
+  await initial_win.async_set_title("Catalog PIM")
 
   # Move to the backend dir and run the setup
   await left.async_send_text(f"cd {backendDir}\n")
@@ -39,6 +40,16 @@ async def main(connection):
   # Start frontend by sending text sequences as if we typed them in the terminal
   await right.async_send_text(f"cd {frontendDir}\n")
   await right.async_send_text("yarn dev\n")
+
+  ########################################################################
+  # Create tab for frontend; I have 1 tab for each service to run vim in
+  ########################################################################
+  frontend = await initial_win.async_create_tab()
+
+  # Selects the newly created tab
+  await frontend.async_select()
+  await frontend.current_session.async_send_text(f"cd {frontendDir}\n")
+  await frontend.current_session.async_send_text("git status\n")
 
 try:
   iterm2.run_until_complete(main, True)
