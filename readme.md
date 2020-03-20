@@ -1,2 +1,2 @@
-# yalla
-> Create automated workflows and sessions for iTerm2
+# iTermate
+> Automate your iTerm layouts and workflows
