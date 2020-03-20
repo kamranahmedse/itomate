@@ -3,8 +3,6 @@
 import iterm2
 import yaml
 
-backend_dir = '~/Workspace/module-catalog-pim'
-frontend_dir = '~/Workspace/web-catalog-pim'
 config_path = './setup.yml'
 
 
