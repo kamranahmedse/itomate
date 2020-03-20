@@ -1,22 +1,28 @@
 version: "1.0"
 tabs:
-  title: "Catalog PIM"
-  panes:
-    - title: "PIM Backend – Exec"
-      position: "1/1"
-      commands:
-        - "cd ~/Workspace/module-catalog-pim"
-        - "yarn dev"
-    - title: "PIM Frontend – Exec"
-      position: "1/2"
-      commands:
-        - "cd ~/Workspace/web-catalog-pim"
-        - "yarn dev"
-    - title: "PIM Frontend - Dir"
-      position: "2/1"
-      commands:
-        - "cd ~/Workspace/web-catalog-pim"
-    - title: "PIM Frontend - Dir"
-      position: "1/2"
-      commands:
-        - "cd ~/Workspace/web-catalog-pim"
+  catalog-pim:
+    title: "Catalog PIM"
+    panes:
+      - title: "PIM Backend – Exec"
+        position: "1/1"
+        commands:
+          - "cd ~/Workspace/module-catalog-pim"
+          - "yarn dev"
+      - title: "PIM Frontend – Exec"
+        position: "1/2"
+        commands:
+          - "cd ~/Workspace/web-catalog-pim"
+          - "yarn dev"
+      - title: "PIM Frontend - Dir"
+        position: "2/1"
+        commands:
+          - "cd ~/Workspace/web-catalog-pim"
+      - title: "PIM Frontend - Dir"
+        position: "1/2"
+        commands:
+          - "cd ~/Workspace/web-catalog-pim"
+  module-account:
+    title: "Accounts"
+    panes:
+      - title: "ABC"
+      - title: "XYZ"
