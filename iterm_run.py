@@ -27,9 +27,26 @@ def read_config():
 
 
 async def render_tab_panes(tab, panes):
-    commands = panes[0].get("commands") or []
-    for command in commands:
-        await tab.current_session.async_send_text(f"{command}\n")
+    # Iterate and first do the vertical splits based on 1/1, 2/1, 3/1
+    # Now iterate all 1/1/, 1/2/, 1/3/, ... then 2/1/, 2/2/, 2/3/ ... and do the horizontal splits in each lane
+    # Now find all for 1/1/1, 1/1/2, 1/1/3, focus 1/1 and
+
+    pane_ref = tab.current_session
+
+    # Render the top level/vertically positioned panes i.e. 1/1, 2/1, 3/1, 4/1, 5/1
+    for vertical_pane_counter in list(range(1, 10)):
+        # For each
+        for pane in panes:
+            if not pane.get("position") == f"{vertical_pane_counter}/1":
+                continue
+            # For the first counter, we don't need to split because
+            # we have the currently opened empty session already
+            if vertical_pane_counter != 1:
+                pane_ref = await pane_ref.async_split_pane(vertical=True)
+
+            pane_commands = pane.get('commands') or []
+            for command in pane_commands:
+                await pane_ref.async_send_text(f"{command}\n")
 
 
 async def main(connection):

@@ -21,8 +21,3 @@ tabs:
         position: "1/2"
         commands:
           - "cd ~/Workspace/web-catalog-pim"
-  module-account:
-    title: "Accounts"
-    panes:
-      - title: "ABC"
-      - title: "XYZ"
