@@ -27,26 +27,61 @@ def read_config():
 
 
 async def render_tab_panes(tab, panes):
-    # Iterate and first do the vertical splits based on 1/1, 2/1, 3/1
-    # Now iterate all 1/1/, 1/2/, 1/3/, ... then 2/1/, 2/2/, 2/3/ ... and do the horizontal splits in each lane
-    # Now find all for 1/1/1, 1/1/2, 1/1/3, focus 1/1 and
+    # Create a dictionary with keys set to positions of panes
+    positional_panes = {pane.get("position"): pane for pane in panes}
 
-    pane_ref = tab.current_session
+    sessions_ref = {}
+    current_session = tab.current_session
 
     # Render the top level/vertically positioned panes i.e. 1/1, 2/1, 3/1, 4/1, 5/1
     for vertical_pane_counter in list(range(1, 10)):
-        # For each
-        for pane in panes:
-            if not pane.get("position") == f"{vertical_pane_counter}/1":
-                continue
-            # For the first counter, we don't need to split because
-            # we have the currently opened empty session already
-            if vertical_pane_counter != 1:
-                pane_ref = await pane_ref.async_split_pane(vertical=True)
+        current_position = f"{vertical_pane_counter}/1"
+        pane = positional_panes.get(current_position)
+        if pane is None:
+            continue
 
-            pane_commands = pane.get('commands') or []
+        # For the first counter, we don't need to split because
+        # we have the currently opened empty session already
+        if vertical_pane_counter != 1:
+            current_session = await current_session.async_split_pane(vertical=True)
+
+        # Cache the pane reference for further divisions later on
+        sessions_ref[current_position] = current_session
+
+        # Execute the commands for this pane
+        pane_commands = pane.get('commands') or []
+        for command in pane_commands:
+            await current_session.async_send_text(f"{command}\n")
+
+    # For each of the vertical panes rendered above, render the sub panes now
+    # e.g. 1/2, 1/3, 1/4, 1/5 ... 2/2, 2/3, 2/4, ... and so on
+    for vertical_pane_counter in list(range(1, 10)):
+        # Reference to 1/1, 2/1, 3/1 and so on. We are going to split that horizontally now
+        parent_session_ref = sessions_ref.get(f"{vertical_pane_counter}/1")
+        # Ignore if we don't have the session for this root position
+        if parent_session_ref is None:
+            continue
+
+        current_session = parent_session_ref
+
+        # Horizontal divisions start from 2 e.g. 1/2, 1/3, 1/4, 1/5 .. 2/2, 2/3 and so on
+        for horizontal_pane_counter in list(range(2, 11)):
+            horizontal_position = f"{vertical_pane_counter}/{horizontal_pane_counter}"
+            horizontal_pane = positional_panes.get(horizontal_position)
+            if horizontal_pane is None:
+                continue
+
+            # split the current session horizontally
+            current_session = await current_session.async_split_pane(vertical=False)
+            # Cache the pane reference for later use
+            sessions_ref[horizontal_position] = current_session
+
+            # Execute the commands for this pane
+            pane_commands = horizontal_pane.get('commands') or []
             for command in pane_commands:
-                await pane_ref.async_send_text(f"{command}\n")
+                await current_session.async_send_text(f"{command}\n")
+
+    return sessions_ref
 
 
 async def main(connection):
@@ -57,6 +92,7 @@ async def main(connection):
     initial_win = await get_current_window(app, connection)
     curr_tab = initial_win.current_tab
 
+    # Render all the required tabs and execute the commands
     for counter, tab_id in enumerate(config['tabs']):
         # Don't create a new tab for the first iteration because
         # we have the current tab where the command was run
@@ -64,8 +100,8 @@ async def main(connection):
             curr_tab = await initial_win.async_create_tab()
 
         tab_config = config['tabs'][tab_id]
-        tab_title = tab_config['title']
-        tab_panes = tab_config['panes']
+        tab_title = tab_config.get('title')
+        tab_panes = tab_config.get('panes')
 
         # Ignore if there are no tab panes given
         if len(tab_panes) <= 0:
@@ -73,35 +109,6 @@ async def main(connection):
 
         await curr_tab.async_set_title(tab_title)
         await render_tab_panes(curr_tab, tab_panes)
-
-    return
-
-    # Create two splits here
-    left = initial_win.current_tab.current_session
-    right = await left.async_split_pane(vertical=True)
-
-    return
-
-    # Set the tab title for this session
-    await initial_win.async_set_title("Catalog PIM")
-
-    # Move to the backend dir and run the setup
-    await left.async_send_text(f"cd {backend_dir}\n")
-    await left.async_send_text("yarn dev\n")
-
-    # Start frontend by sending text sequences as if we typed them in the terminal
-    await right.async_send_text(f"cd {frontend_dir}\n")
-    await right.async_send_text("yarn dev\n")
-
-    ########################################################################
-    # Create tab for frontend; I have 1 tab for each service to run vim in
-    ########################################################################
-    frontend = await initial_win.async_create_tab()
-
-    # Selects the newly created tab
-    await frontend.async_select()
-    await frontend.current_session.async_send_text(f"cd {frontend_dir}\n")
-    await frontend.current_session.async_send_text("git status\n")
 
 
 try:

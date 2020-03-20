@@ -18,6 +18,23 @@ tabs:
         commands:
           - "cd ~/Workspace/web-catalog-pim"
       - title: "PIM Frontend - Dir"
-        position: "1/2"
+        position: "2/2"
         commands:
           - "cd ~/Workspace/web-catalog-pim"
+  module-account:
+    title: "Account"
+    panes:
+      - title: "Module Account"
+        position: "1/1"
+        commands:
+          - "cd ~/Workspace/module-account"
+          - "yarn dev"
+      - title: "Module Auth"
+        position: "1/2"
+        commands:
+          - "cd ~/Workspace/module-auth"
+          - "yarn dev"
+      - title: "Module Auth"
+        position: "2/1"
+        commands:
+          - "cd ~/Workspace/module-account"
