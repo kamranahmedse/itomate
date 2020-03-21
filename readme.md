@@ -96,6 +96,8 @@ y: refers to the row of the given column x
 
 Here are some of the examples for different pane layouts
 
+<img src="./.github/assets/single-pane.png" width="200px" />
+
 ```yml
 version: "1.0"
 tabs:
@@ -105,5 +107,5 @@ tabs:
       - title: "Single Pane"
         position: "1/1"
         commands:
-          - "cd ~/Workspace/some-project" 
+          - "cd ~/Workspace/some-project"
 ```
