@@ -96,7 +96,7 @@ y: refers to the row of the given column x
 
 Here are some of the examples for different pane layouts
 
-<img src="./.github/assets/single-pane.png" width="200px" />
+<img align="right" src="./.github/assets/single-pane.png" width="300px" />
 
 ```yml
 version: "1.0"
