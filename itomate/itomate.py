@@ -95,11 +95,8 @@ async def render_tab_panes(tab, panes):
 
 
 def get_version():
-    with open(os.path.join(os.path.dirname(__file__), "../setup.py")) as fp:
-        setup_content = fp.read()
-        current_version = re.search('version="(.*)"', setup_content).group(1)
-
-        return current_version
+    with open(os.path.join(os.path.dirname(__file__), "version.txt")) as fp:
+        return fp.read().strip()
 
 
 def parse_arguments():
