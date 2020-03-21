@@ -1,0 +1,15 @@
+version: "1.0"
+tabs:
+  window-1:
+    title: "Window 1"
+    panes:
+      - position: "1/1"
+      - position: "1/2"
+      - position: "2/1"
+      - position: "2/2"
+  window-2:
+    title: "Window 2"
+    panes:
+      - position: "1/1"
+      - position: "1/2"
+      - position: "2/1"
