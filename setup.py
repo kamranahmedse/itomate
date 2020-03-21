@@ -1,15 +1,13 @@
-import os
-
 import setuptools
+
+from itomate.itomate import version
 
 with open("readme.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="itomate",
-    version=(
-        open(os.path.join(os.path.dirname(__file__), "itomate", "version.txt")).read().strip()
-    ),
+    version=version,
     author="Kamran Ahmed",
     author_email="kamranahmed.se@gmail.com",
     description="Automate your iTerm layouts and workflows",

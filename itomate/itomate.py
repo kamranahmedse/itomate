@@ -2,13 +2,13 @@
 
 import argparse
 import os
-import re
 import textwrap
 
 import iterm2
 import yaml
 
 default_config = 'itomate.yml'
+version = '0.2.13'
 
 
 class ItomateException(Exception):
@@ -94,11 +94,6 @@ async def render_tab_panes(tab, panes):
     return sessions_ref
 
 
-def get_version():
-    with open(os.path.join(os.path.dirname(__file__), "version.txt")) as fp:
-        return fp.read().strip()
-
-
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description='Workflow automation and layouts for iTerm',
@@ -121,7 +116,7 @@ async def activate(connection):
 
     # Print the version and exit if version
     if args.get('version'):
-        print(get_version())
+        print(version)
         return
 
     config_path = args.get('config') if args.get('config') is not None else default_config
