@@ -80,7 +80,7 @@ Details for each of the configuration objects above is given below
 | `window-1` | Replace with the unique project id e.g. `web-catalog-pim`                                                                                                                                                                                        |
 | `title`    | Title to be shown in the title bar of the current tab                                                                                                                                                                                            |
 | `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane |
-| `commands` | List of commands to execute.                                                                                                                                                                                                                     |
+| `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                                     |
 
 
 
@@ -271,3 +271,14 @@ tabs:
       - position: "2/3"    # <-- Notice the position
       - position: "3/1"    # <-- Notice the position
 ```
+
+## Similar Projects
+
+There is [itermocil](https://github.com/TomAnthony/itermocil/blob/master/README.md) which relies on [Applescript that has been deprecated by iTerm](https://www.iterm2.com/documentation-scripting.html), has limited layout options, and is pretty limited in terms of what it can achieve because of AppleScript. iTomate uses the iTerm's [newly introduced Python API](https://www.iterm2.com/python-api/), has flexible layouts support and can be extended using iTerm's pretty powerful API.
+
+## Contributions
+Feel free to submit pull requests, create issues, spread the word.
+
+## License 
+
+MIT &copy; [Kamran Ahmed](https://twitter.com/kamranahmedse)
