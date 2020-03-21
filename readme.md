@@ -1,6 +1,6 @@
 # iTomate
 
-<img width="450px" align="right" src="https://i.imgur.com/xHH6Ffr.png" />
+<img width="450px" align="right" src="./.github/assets/illustration.png" />
 
 > Automate your iTerm layouts and session setup
 
@@ -19,7 +19,7 @@ Make sure that you are running Python 3.5 or later
 pip install itomate
 ```
 
-[Enable Python API usage](https://i.imgur.com/RVLW6eD.png) in iTerm preferences.
+[Enable Python API usage](./.github/assets/preferences.png) in iTerm preferences.
 
 ```shell
 itomate --version
