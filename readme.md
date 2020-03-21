@@ -27,4 +27,4 @@ itomate --version
 
 ## Demo
 
-![](./.github/assets/demo.gif)
+![](./.github/assets/itomate-demo.gif)
