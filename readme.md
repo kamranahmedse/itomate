@@ -17,9 +17,12 @@ Make sure that you are running Python 3.5 or later
 ```shell
 pip install itomate
 ```
-Open iTerm preferences <kbd>CMD</kbd> + <kbd>,</kbd> and Enable Python API
 
-![](https://i.imgur.com/FfRDIo5.png)
+Enable iTerm's Python API in the preferences
+
+* Press <kbd>CMD</kbd> + <kbd>,</kbd> to open iTerm preferences
+* Search for "Python API" in the top right search input
+* Enable the checkbox for [Enable Python API](https://i.imgur.com/RVLW6eD.png)
 
 Now run below to make sure that everything is setup properly
 
