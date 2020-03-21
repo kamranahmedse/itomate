@@ -12,16 +12,14 @@ Define your iTerm layouts, commands to execute and sessions in the form of yaml 
 
 ## Installation
 
-* Make sure that you are running Python 3.5 or later
+Make sure that you are running Python 3.5 or later
 
-  ```shell
-  pip install itomate
-  ```
+```shell
+pip install itomate
+```
 
-* Open iTerm's preferences and [Enable Python API usage](https://i.imgur.com/RVLW6eD.png).
+Open iTerm's preferences and [Enable Python API usage](https://i.imgur.com/RVLW6eD.png). Once you have done that, run the below to make sure that everything is setup properly
 
-* Now run below to make sure that everything is setup properly
-
-  ```shell
-  itomate --version
-  ```
+```shell
+itomate --version
+```
