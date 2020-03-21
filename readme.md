@@ -274,7 +274,7 @@ tabs:
 
 ## Similar Projects
 
-There is [itermocil](https://github.com/TomAnthony/itermocil/blob/master/README.md) which relies on [Applescript that has been deprecated by iTerm](https://www.iterm2.com/documentation-scripting.html), has limited layout options, and is pretty limited in terms of what it can achieve because of AppleScript. iTomate uses the iTerm's [newly introduced Python API](https://www.iterm2.com/python-api/), has flexible layouts support and can be extended using iTerm's pretty powerful API.
+There is [itermocil](https://github.com/TomAnthony/itermocil/blob/master/README.md) which relies on [Applescript that has been deprecated by iTerm](https://www.iterm2.com/documentation-scripting.html), has limited layout options, and is pretty limited in terms of what it can achieve because of AppleScript. iTomate on the other hand uses iTerm's [newly introduced Python API](https://www.iterm2.com/python-api/), has flexible layouts support and can be extended using iTerm's pretty powerful API.
 
 ## Contributions
 Feel free to submit pull requests, create issues, spread the word.
