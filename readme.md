@@ -85,7 +85,7 @@ Details for each of the configuration objects above is given below
 
 
 ## Layouts
-The parameter `position` in each pane is required and allows you to configure how the layout looks like. The position value has the format below:
+The parameter `position` in each pane decides where each of the window panes will be displayed. The position value has the format below
 
 ```shell
 x / y – both x and y are required parameters
@@ -98,6 +98,7 @@ Here are some of the examples for different pane layouts
 
 ## Single Pane Window
 
+For single pane, since there is one column and one row, the position for pane would be `1/1`
 ```
 .------------------.
 | 1/1              |
@@ -111,7 +112,7 @@ Here are some of the examples for different pane layouts
 |                  |
 '------------------'
 ```
-
+Here is how the configuration would look like
 ```yml
 version: "1.0"
 tabs:
@@ -127,7 +128,7 @@ tabs:
 ```
 
 ## Two Panes Vertical Split Layout
-
+For two panes with equal split or in other words two columns with one row in each, the positions would be `1/1` for the pane on the left and `2/1` for the pane on the right i.e. the second column.
 ```
 .------------------.------------------.
 | 1/1              | 2/1              |
@@ -141,7 +142,7 @@ tabs:
 |                  |                  |
 '------------------'------------------'
 ```
-
+Here is how it would look in the configuration
 ```yml
 version: "1.0"
 tabs:
@@ -157,3 +158,38 @@ tabs:
         commands:
           - "cd ~/Workspace/another-project"
 ```
+## Two Columns, Three Panes Layout
+
+The layout below now has columns: first column having only one row so position for that would be `1/1`, for the second column we have two panes i.e. two rows. So first pane in the second column would be `2/1` and the second one would be `2/2`.
+
+```
+.------------------.------------------.
+| 1/1              | 2/1              |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |------------------|
+|                  | 2/2              |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+'------------------'------------------'
+```
+
+Configuration for that would be:
+
+```yml
+version: "1.0"
+tabs:
+  some-project:
+    title: "Some Project"
+    panes:
+      - position: "1/1"    # <-- Notice the position
+      - position: "2/1"    # <-- Notice the position
+      - position: "2/2"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/project"
+          - "git standup"
+```
+Note that the `commands` and `title` are optional parameters in panes. Only `position` is required.
+
