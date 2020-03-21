@@ -95,3 +95,15 @@ y: refers to the row of the given column x
 ```
 
 Here are some of the examples for different pane layouts
+
+```yml
+version: "1.0"
+tabs:
+  some-project:
+    title: "Some Project"
+    panes:
+      - title: "Single Pane"
+        position: "1/1"
+        commands:
+          - "cd ~/Workspace/some-project" 
+```
