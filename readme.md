@@ -6,7 +6,7 @@
 Define your iTerm layouts, commands to execute and sessions in the form of yaml files and run a single command to have iTerm prepare it self for you to start working.
 
 ## Requirements
-Make sure that you have the below installed and working
+
 * iTerm2 Version 3.3 or later
 * Python 3.5 or later
 
