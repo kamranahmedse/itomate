@@ -24,3 +24,7 @@ pip install itomate
 ```shell
 itomate --version
 ```
+
+## Demo
+
+![](./.github/assets/demo.gif)
