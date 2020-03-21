@@ -6,10 +6,10 @@ import sys
 import iterm2
 import yaml
 
-default_config = 'itermate.yml'
+default_config = 'itomate.yml'
 
 
-class ItermateException(Exception):
+class ItomateException(Exception):
     """Raise for our custom exceptions"""
 
 
@@ -26,7 +26,7 @@ async def get_current_window(app, connection):
 
 def read_config(config_path):
     if not os.path.isfile(config_path):
-        raise ItermateException(f"Config file does not exist at {config_path}")
+        raise ItomateException(f"Config file does not exist at {config_path}")
 
     with open(r'%s' % config_path) as file:
         # The FullLoader parameter handles the conversion from YAML
@@ -123,5 +123,5 @@ async def main(connection):
 
 try:
     iterm2.run_until_complete(main, True)
-except ItermateException as e:
+except ItomateException as e:
     print(e.args)
