@@ -1,7 +1,7 @@
 <img width="420px" align="right" src="https://i.imgur.com/xHH6Ffr.png" />
 
 # iTomate
-> Automate your iTerm tabs/pane layouts and session setup
+> Automate your iTerm layouts and session setup
 
 Define your iTerm layouts, commands to execute and sessions in the form of yaml files and run a single command to have iTerm prepare it self for you to start working.
 
