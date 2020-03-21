@@ -14,6 +14,8 @@ setuptools.setup(
     author_email="kamranahmed.se@gmail.com",
     description="Automate your iTerm layouts and workflows",
     long_description=long_description,
+    include_package_data=True,
+    zip_safe=False,
     long_description_content_type="text/markdown",
     url="https://github.com/kamranahmedse/itomate",
     packages=setuptools.find_packages(),
