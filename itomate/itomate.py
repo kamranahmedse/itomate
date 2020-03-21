@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+import argparse
 import os
-import sys
+import re
+import textwrap
 
 import iterm2
 import yaml
@@ -92,8 +94,40 @@ async def render_tab_panes(tab, panes):
     return sessions_ref
 
 
+def get_version():
+    with open(os.path.join(os.path.dirname(__file__), "../setup.py")) as fp:
+        setup_content = fp.read()
+        current_version = re.search('version="(.*)"', setup_content).group(1)
+
+        return current_version
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description='Workflow automation and layouts for iTerm',
+        epilog=textwrap.dedent("""\
+        For details on creating configuration files, please head to:
+
+        https://github.com/kamranahmedse/itomate
+        """),
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+
+    parser.add_argument('-c', '--config', help='Path to the configuration file')
+    parser.add_argument('-v', '--version', help='Show version', action='store_true')
+
+    return vars(parser.parse_args())
+
+
 async def activate(connection):
-    config_path = sys.argv[1] if len(sys.argv) > 1 else default_config
+    args = parse_arguments()
+
+    # Print the version and exit if version
+    if args.get('version'):
+        print(get_version())
+        return
+
+    config_path = args.get('config') if args.get('config') is not None else default_config
 
     config = read_config(config_path)
 
@@ -123,3 +157,7 @@ async def activate(connection):
 
 def main():
     iterm2.run_until_complete(activate)
+
+
+if __name__ == "__main__":
+    main()
