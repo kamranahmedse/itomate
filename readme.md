@@ -19,8 +19,9 @@ Make sure that you are running Python 3.5 or later
 pip install itomate
 ```
 
-Open iTerm's preferences and [Enable Python API usage](https://i.imgur.com/RVLW6eD.png). 
-Once you have done that, run the below to make sure that everything is setup properly
+[Enable Python API usage](https://i.imgur.com/RVLW6eD.png) in iTerm preferences.
+
+Now run below to make sure that everything is setup properly
 
 ```shell
 itomate --version
