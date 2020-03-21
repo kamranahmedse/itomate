@@ -79,7 +79,19 @@ Details for each of the configuration objects above is given below
 | `tabs`     | Windows or tabs in the iTerm window.                                                                                                                                                                                                             |
 | `window-1` | Replace with the unique project id e.g. `web-catalog-pim`                                                                                                                                                                                        |
 | `title`    | Title to be shown in the title bar of the current tab                                                                                                                                                                                            |
-| `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column.   More on this later in the readme. `position` is the only required key in a pane |
+| `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane |
 | `commands` | List of commands to execute.                                                                                                                                                                                                                     |
 
 
+
+## Layouts
+The parameter `position` in each pane is required and allows you to configure how the layout looks like. The position value has the format below:
+
+```shell
+x / y – both x and y are required parameters
+
+x: refers to the column in the window
+y: refers to the row of the given column x
+```
+
+Here are some of the examples for different pane layouts
