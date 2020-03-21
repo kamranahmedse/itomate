@@ -94,9 +94,9 @@ x: refers to the column in the window
 y: refers to the row of the given column x
 ```
 
-Here are some of the examples for different pane layouts
-
 <img align="right" src="./.github/assets/single-pane.png" width="300px" />
+
+Here are some of the examples for different pane layouts
 
 ```yml
 version: "1.0"
@@ -108,4 +108,6 @@ tabs:
         position: "1/1"
         commands:
           - "cd ~/Workspace/some-project"
+          - "git pull origin master"
+          - "yarn dev"
 ```
