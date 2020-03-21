@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 
+import os
+import sys
+
 import iterm2
 import yaml
 
-config_path = './setup.yml'
+default_config = 'itermate.yml'
+
+
+class ItermateException(Exception):
+    """Raise for our custom exceptions"""
 
 
 # Gets the current window or creates one if needed
@@ -17,7 +24,10 @@ async def get_current_window(app, connection):
     return curr_win
 
 
-def read_config():
+def read_config(config_path):
+    if not os.path.isfile(config_path):
+        raise ItermateException(f"Config file does not exist at {config_path}")
+
     with open(r'%s' % config_path) as file:
         # The FullLoader parameter handles the conversion from YAML
         # scalar values to Python the dictionary format
@@ -83,7 +93,9 @@ async def render_tab_panes(tab, panes):
 
 
 async def main(connection):
-    config = read_config()
+    config_path = sys.argv[1] if len(sys.argv) > 1 else default_config
+
+    config = read_config(config_path)
 
     # Get the instance of currently running app
     app = await iterm2.async_get_app(connection, True)
@@ -111,9 +123,5 @@ async def main(connection):
 
 try:
     iterm2.run_until_complete(main, True)
-except:
-    print("""
-Please ensure that iTerm is running and the Python API is
-enabled in the iTerm2 configuration. Have a look at this
-link: https://github.com/kamranahmedse/iterm-run#setup
-""")
+except ItermateException as e:
+    print(e.args)
