@@ -113,14 +113,11 @@ def parse_arguments():
 
 async def activate(connection):
     args = parse_arguments()
-
-    # Print the version and exit if version
     if args.get('version'):
         print(version)
         return
 
     config_path = args.get('config') if args.get('config') is not None else default_config
-
     config = read_config(config_path)
 
     # Get the instance of currently running app
