@@ -111,3 +111,23 @@ tabs:
           - "git pull origin master"
           - "yarn dev"
 ```
+
+<img align="right" src="./.github/assets/half-splits.png" width="350px" />
+
+Here is an example of two column layout
+
+```yml
+version: "1.0"
+tabs:
+  some-project:
+    title: "Some Project"
+    panes:
+      - title: "First Half"
+        position: "1/1"
+        commands:
+          - "cd ~/Workspace/some-project"
+      - title: "Second Half"
+        position: "2/1"
+        commands:
+          - "cd ~/Workspace/another-project"
+```
