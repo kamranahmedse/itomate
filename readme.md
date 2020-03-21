@@ -160,7 +160,7 @@ tabs:
 ```
 ## Two Columns, Three Panes Layout
 
-The layout below now has columns: first column having only one row so position for that would be `1/1`, for the second column we have two panes i.e. two rows. So first pane in the second column would be `2/1` and the second one would be `2/2`.
+The layout below now has two columns. First column has only one row so position for that would be `1/1`. For the second column we have two panes i.e. two rows; first pane in the second column would be `2/1` and the second one would be `2/2`.
 
 ```
 .------------------.------------------.
@@ -186,6 +186,9 @@ tabs:
     panes:
       - position: "1/1"    # <-- Notice the position
       - position: "2/1"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/dev-server"
+          - "./run"
       - position: "2/2"    # <-- Notice the position
         commands:
           - "cd ~/Workspace/project"
@@ -193,3 +196,78 @@ tabs:
 ```
 Note that the `commands` and `title` are optional parameters in panes. Only `position` is required.
 
+## Two Columns, Four Panes Layout
+
+```
+.------------------.------------------.
+| 1/1              | 2/1              |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|------------------|                  |
+| 1/2              |                  |
+|                  |                  |
+|                  |                  |
+|------------------|                  |
+| 1/3              |                  |
+|                  |                  |
+|                  |                  |
+'------------------'------------------'
+```
+Configuration for that would be:
+```yml
+version: "1.0"
+tabs:
+  some-project:
+    title: "Some Project"
+    panes:
+      - position: "1/1"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/project"
+          - "Make clean"
+      - position: "1/2"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/project"
+          - "git standup"
+      - position: "1/3"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/project"
+          - "git standup"
+      - position: "2/1"    # <-- Notice the position
+        commands:
+          - "cd ~/Workspace/dev-server"
+          - "./run"
+```
+
+## Three Columns Five Pane Layout
+
+```
+.------------------.------------------.------------------.
+| 1/1              | 2/1              | 3/1              |
+|                  |                  |                  |
+|                  |                  |                  |
+|                  |                  |                  |
+|                  |------------------|                  |
+|                  | 2/2              |                  |
+|                  |                  |                  |
+|                  |                  |                  |
+|                  |------------------|                  |
+|                  | 2/3              |                  |
+|                  |                  |                  |
+|                  |                  |                  |
+'------------------'------------------'------------------'
+```
+Configuration for that would be
+
+```yml
+version: "1.0"
+tabs:
+  some-project:
+    title: "Some Project"
+    panes:
+      - position: "1/1"    # <-- Notice the position
+      - position: "2/1"    # <-- Notice the position
+      - position: "2/2"    # <-- Notice the position
+      - position: "2/3"    # <-- Notice the position
+      - position: "3/1"    # <-- Notice the position
+```
