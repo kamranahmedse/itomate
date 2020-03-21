@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setuptools.setup(
     name="itomate",
-    version="0.2.6",
+    version="0.2.8",
     author="Kamran Ahmed",
     author_email="kamranahmed.se@gmail.com",
     description="Automate your iTerm layouts and workflows",

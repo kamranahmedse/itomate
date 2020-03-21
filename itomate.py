@@ -92,7 +92,7 @@ async def render_tab_panes(tab, panes):
     return sessions_ref
 
 
-async def main(connection):
+async def activate(connection):
     config_path = sys.argv[1] if len(sys.argv) > 1 else default_config
 
     config = read_config(config_path)
@@ -121,7 +121,5 @@ async def main(connection):
         await render_tab_panes(curr_tab, tab_panes)
 
 
-try:
-    iterm2.run_until_complete(main, True)
-except ItomateException as e:
-    print(e.args)
+def main():
+    iterm2.run_until_complete(activate)
