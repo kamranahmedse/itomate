@@ -94,9 +94,23 @@ x: refers to the column in the window
 y: refers to the row of the given column x
 ```
 
-<img align="right" src="./.github/assets/single-pane.png" width="300px" />
-
 Here are some of the examples for different pane layouts
+
+## Single Pane Window
+
+```
+.------------------.
+| 1/1              |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+'------------------'
+```
 
 ```yml
 version: "1.0"
@@ -112,9 +126,21 @@ tabs:
           - "yarn dev"
 ```
 
-<img align="right" src="./.github/assets/half-splits.png" width="350px" />
+## Two Panes Vertical Split Layout
 
-Here is an example of two column layout
+```
+.------------------.------------------.
+| 1/1              | 2/1              |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+|                  |                  |
+'------------------'------------------'
+```
 
 ```yml
 version: "1.0"
@@ -123,11 +149,11 @@ tabs:
     title: "Some Project"
     panes:
       - title: "First Half"
-        position: "1/1"
+        position: "1/1"    # <-- Notice the position
         commands:
           - "cd ~/Workspace/some-project"
       - title: "Second Half"
-        position: "2/1"
+        position: "2/1"    # <-- Notice the position
         commands:
           - "cd ~/Workspace/another-project"
 ```
