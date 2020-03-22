@@ -272,6 +272,13 @@ tabs:
       - position: "3/1"    # <-- Notice the position
 ```
 
+## Contributors
+Special thanks to the contributors for making iTomate possible
+
+* [Zakaria](https://github.com/zakiuu)
+* You?
+
+
 ## Similar Projects
 
 There is [itermocil](https://github.com/TomAnthony/itermocil/blob/master/README.md) which relies on [Applescript that has been deprecated by iTerm](https://www.iterm2.com/documentation-scripting.html), has limited layout options, and is pretty limited in terms of what it can achieve because of AppleScript. iTomate on the other hand uses iTerm's [newly introduced Python API](https://www.iterm2.com/python-api/), has flexible layouts support and can be extended using iTerm's pretty powerful API.
