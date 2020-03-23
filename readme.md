@@ -4,7 +4,7 @@
 
 > Automate your iTerm layouts and session setup
 
-Define your iTerm layouts, commands to execute in the form of yaml files and run a single command to have iTerm prepare it self for you to start working.
+Define your iTerm layouts, commands to execute in the form of yaml files and run a single command to have iTerm prepare itself for you to start working.
 
 ## Requirements
 
