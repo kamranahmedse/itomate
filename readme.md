@@ -44,6 +44,7 @@ Here is the list of options available
 itomate [-c,--config <config-file>] # Sets up the iTerm session
         [-h,--help]                 # Shows the help screen
         [-v,--version]              # Shows the installed itomate version
+        [-n,--new]                  # Runs itomate in a new window
 ```
 
 ## Configuration
