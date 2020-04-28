@@ -53,6 +53,7 @@ Configuration file to set up the sessions has the format below
 version: "1.0"
 tabs:
   window-1:
+    root: "~/Documents/Projects/my_project"
     title: "Window 1"
     panes:
       - title: "Some Pane Title"
@@ -78,8 +79,9 @@ Details for each of the configuration objects above is given below
 | `version`  | Refers to the itomate configuration version. Should always be 1.                                                                                                                                                                                 |
 | `tabs`     | Windows or tabs in the iTerm window.                                                                                                                                                                                                             |
 | `window-1` | Replace with the unique project id e.g. `web-catalog-pim`                                                                                                                                                                                        |
+| `root`     | Root path for all panes within a tab                                                                                                                                                                                                             |
 | `title`    | Title to be shown in the title bar of the current tab                                                                                                                                                                                            |
-| `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane |
+| `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane   |
 | `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                                     |
 
 
@@ -147,16 +149,13 @@ Here is how it would look in the configuration
 version: "1.0"
 tabs:
   some-project:
+    root: "~/Workspace/some-project"
     title: "Some Project"
     panes:
       - title: "First Half"
         position: "1/1"    # <-- Notice the position
-        commands:
-          - "cd ~/Workspace/some-project"
       - title: "Second Half"
         position: "2/1"    # <-- Notice the position
-        commands:
-          - "cd ~/Workspace/another-project"
 ```
 ## Two Columns, Three Panes Layout
 
@@ -182,16 +181,15 @@ Configuration for that would be:
 version: "1.0"
 tabs:
   some-project:
+    root: "~/Workspace/dev-server"
     title: "Some Project"
     panes:
       - position: "1/1"    # <-- Notice the position
       - position: "2/1"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/dev-server"
           - "./run"
       - position: "2/2"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/project"
           - "git standup"
 ```
 Note that the `commands` and `title` are optional parameters in panes. Only `position` is required.
@@ -219,23 +217,20 @@ Configuration for that would be:
 version: "1.0"
 tabs:
   some-project:
+    root: "~/Workspace/project"
     title: "Some Project"
     panes:
       - position: "1/1"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/project"
           - "Make clean"
       - position: "1/2"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/project"
           - "git standup"
       - position: "1/3"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/project"
           - "git standup"
       - position: "2/1"    # <-- Notice the position
         commands:
-          - "cd ~/Workspace/dev-server"
           - "./run"
 ```
 

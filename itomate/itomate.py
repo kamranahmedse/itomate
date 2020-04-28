@@ -36,7 +36,7 @@ def read_config(config_path):
         return yaml.load(file, Loader=yaml.FullLoader)
 
 
-async def render_tab_panes(tab, panes):
+async def render_tab_panes(tab, panes, root_path):
     # Create a dictionary with keys set to positions of panes
     positional_panes = {pane.get("position"): pane for pane in panes}
 
@@ -50,16 +50,19 @@ async def render_tab_panes(tab, panes):
         if pane is None:
             continue
 
+        pane_commands = []
         # For the first counter, we don't need to split because
         # we have the currently opened empty session already
         if vertical_pane_counter != 1:
             current_session = await current_session.async_split_pane(vertical=True)
+            if root_path:
+                pane_commands.append(f"cd {root_path}")
 
         # Cache the pane reference for further divisions later on
         sessions_ref[current_position] = current_session
 
         # Execute the commands for this pane
-        pane_commands = pane.get('commands') or []
+        pane_commands.extend(pane.get('commands') or [])
         for command in pane_commands:
             await current_session.async_send_text(f"{command}\n")
 
@@ -87,7 +90,12 @@ async def render_tab_panes(tab, panes):
             sessions_ref[horizontal_position] = current_session
 
             # Execute the commands for this pane
-            pane_commands = horizontal_pane.get('commands') or []
+            pane_commands = []
+
+            if root_path:
+                pane_commands.append(f"cd {root_path}")
+
+            pane_commands.extend(horizontal_pane.get('commands') or [])
             for command in pane_commands:
                 await current_session.async_send_text(f"{command}\n")
 
@@ -133,6 +141,7 @@ async def activate(connection):
             curr_tab = await initial_win.async_create_tab()
 
         tab_config = config['tabs'][tab_id]
+        root_path = tab_config.get('root')
         tab_title = tab_config.get('title')
         tab_panes = tab_config.get('panes')
 
@@ -141,7 +150,7 @@ async def activate(connection):
             continue
 
         await curr_tab.async_set_title(tab_title)
-        await render_tab_panes(curr_tab, tab_panes)
+        await render_tab_panes(curr_tab, tab_panes, root_path)
 
 
 def main():
