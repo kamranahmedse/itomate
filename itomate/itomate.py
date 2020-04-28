@@ -16,9 +16,10 @@ class ItomateException(Exception):
 
 
 # Gets the current window or creates one if needed
-async def get_current_window(app, connection):
+async def get_current_window(app, connection, new):
     curr_win = app.current_window
-    if not curr_win:
+
+    if not curr_win or new:
         curr_win = await iterm2.Window.async_create(connection)
 
     await curr_win.async_activate()
@@ -116,6 +117,7 @@ def parse_arguments():
 
     parser.add_argument('-c', '--config', help='Path to the configuration file')
     parser.add_argument('-v', '--version', help='Show version', action='store_true')
+    parser.add_argument('-n', '--new', help='Run in new window', action='store_true')
 
     return vars(parser.parse_args())
 
@@ -131,7 +133,7 @@ async def activate(connection):
 
     # Get the instance of currently running app
     app = await iterm2.async_get_app(connection, True)
-    initial_win = await get_current_window(app, connection)
+    initial_win = await get_current_window(app, connection, args.get('new'))
     curr_tab = initial_win.current_tab
 
     # Render all the required tabs and execute the commands
