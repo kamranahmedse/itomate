@@ -42,6 +42,7 @@ async def render_tab_panes(tab, panes):
 
     sessions_ref = {}
     current_session = tab.current_session
+    focus_session = current_session
 
     # Render the top level/vertically positioned panes i.e. 1/1, 2/1, 3/1, 4/1, 5/1
     for vertical_pane_counter in list(range(1, 10)):
@@ -57,6 +58,9 @@ async def render_tab_panes(tab, panes):
 
         # Cache the pane reference for further divisions later on
         sessions_ref[current_position] = current_session
+
+        if pane.get('focus'):
+            focus_session = current_session
 
         # Execute the commands for this pane
         pane_commands = pane.get('commands') or []
@@ -86,10 +90,15 @@ async def render_tab_panes(tab, panes):
             # Cache the pane reference for later use
             sessions_ref[horizontal_position] = current_session
 
+            if horizontal_pane.get('focus'):
+                focus_session = current_session
+
             # Execute the commands for this pane
             pane_commands = horizontal_pane.get('commands') or []
             for command in pane_commands:
                 await current_session.async_send_text(f"{command}\n")
+
+        await focus_session.async_activate()
 
     return sessions_ref
 
