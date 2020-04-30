@@ -44,6 +44,7 @@ Here is the list of options available
 itomate [-c,--config <config-file>] # Sets up the iTerm session
         [-h,--help]                 # Shows the help screen
         [-v,--version]              # Shows the installed itomate version
+        [-n,--new]                  # Runs itomate in a new window
 ```
 
 ## Configuration
@@ -62,6 +63,7 @@ tabs:
          - "some command"
          - "second command"
       - position: "1/2"
+        focus: true
       - position: "2/1"
       - position: "2/2"
   window-2:
@@ -82,7 +84,8 @@ Details for each of the configuration objects above is given below
 | `root`     | Root path for all panes within a tab                                                                                                                                                                                                             |
 | `title`    | Title to be shown in the title bar of the current tab                                                                                                                                                                                            |
 | `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane   |
-| `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                                     |
+| `focus`    | Pane to be in focus when itomate is finished. `focus: true`. There should only be one focus flag per Tab. If multiple are found, it will focus on the last pane evaluated.                                                                                                                                   |
+| `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                 |
 
 
 
