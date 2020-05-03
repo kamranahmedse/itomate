@@ -37,7 +37,7 @@ def read_config(config_path):
         return yaml.load(file, Loader=yaml.FullLoader)
 
 
-async def render_tab_panes(tab, panes, root_path):
+async def render_tab_panes(tab, panes):
     # Create a dictionary with keys set to positions of panes
     positional_panes = {pane.get("position"): pane for pane in panes}
 
@@ -52,13 +52,10 @@ async def render_tab_panes(tab, panes, root_path):
         if pane is None:
             continue
 
-        pane_commands = []
         # For the first counter, we don't need to split because
         # we have the currently opened empty session already
         if vertical_pane_counter != 1:
             current_session = await current_session.async_split_pane(vertical=True)
-            if root_path:
-                pane_commands.append(f"cd {root_path}")
 
         # Cache the pane reference for further divisions later on
         sessions_ref[current_position] = current_session
@@ -67,7 +64,7 @@ async def render_tab_panes(tab, panes, root_path):
             focus_session = current_session
 
         # Execute the commands for this pane
-        pane_commands.extend(pane.get('commands') or [])
+        pane_commands = pane.get('commands')
         for command in pane_commands:
             await current_session.async_send_text(f"{command}\n")
 
@@ -98,12 +95,7 @@ async def render_tab_panes(tab, panes, root_path):
                 focus_session = current_session
 
             # Execute the commands for this pane
-            pane_commands = []
-
-            if root_path:
-                pane_commands.append(f"cd {root_path}")
-
-            pane_commands.extend(horizontal_pane.get('commands') or [])
+            pane_commands = horizontal_pane.get('commands')
             for command in pane_commands:
                 await current_session.async_send_text(f"{command}\n")
 
@@ -160,8 +152,15 @@ async def activate(connection):
         if len(tab_panes) <= 0:
             continue
 
+        # Set root path if it exists
+        if root_path:
+            for pane in tab_panes:
+                commands = pane.get('commands') or []
+                commands.insert(0, f"cd {root_path}")
+                pane['commands'] = commands
+
         await curr_tab.async_set_title(tab_title)
-        await render_tab_panes(curr_tab, tab_panes, root_path)
+        await render_tab_panes(curr_tab, tab_panes)
 
 
 def main():
