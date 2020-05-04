@@ -8,7 +8,7 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.2.14'
+version = '0.3.0'
 
 
 class ItomateException(Exception):
