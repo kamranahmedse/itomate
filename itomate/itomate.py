@@ -64,7 +64,7 @@ async def render_tab_panes(tab, panes):
             focus_session = current_session
 
         # Execute the commands for this pane
-        pane_commands = pane.get('commands')
+        pane_commands = pane.get('commands') or []
         for command in pane_commands:
             await current_session.async_send_text(f"{command}\n")
 
@@ -95,7 +95,7 @@ async def render_tab_panes(tab, panes):
                 focus_session = current_session
 
             # Execute the commands for this pane
-            pane_commands = horizontal_pane.get('commands')
+            pane_commands = horizontal_pane.get('commands') or []
             for command in pane_commands:
                 await current_session.async_send_text(f"{command}\n")
 
