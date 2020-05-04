@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 import textwrap
 
 import iterm2
@@ -27,14 +28,33 @@ async def get_current_window(app, connection, new):
     return curr_win
 
 
-def read_config(config_path):
+def read_config(config_path, tag='!SECRET'):
     if not os.path.isfile(config_path):
         raise ItomateException(f"Config file does not exist at {config_path}")
 
+    # REGEX for ${word}
+    tag_regex = re.compile('.*?\${(\w+)}.*?')
+
+    # The FullLoader parameter handles the conversion from YAML
+    # scalar values to Python the dictionary format
+    loader = yaml.FullLoader
+
+    loader.add_implicit_resolver(tag, tag_regex, None)
+
+    def env_variables(loader, node):
+        scalar = loader.construct_scalar(node)
+        match = tag_regex.findall(scalar)
+        if match:
+            value = scalar
+            for g in match:
+                value = value.replace(f'${{{g}}}', os.environ.get(g, g))
+            return value
+        return scalar
+
+    loader.add_constructor(tag, env_variables)
+
     with open(r'%s' % config_path) as file:
-        # The FullLoader parameter handles the conversion from YAML
-        # scalar values to Python the dictionary format
-        return yaml.load(file, Loader=yaml.FullLoader)
+        return yaml.load(file, Loader=loader)
 
 
 async def render_tab_panes(tab, panes):
