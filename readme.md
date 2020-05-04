@@ -60,7 +60,7 @@ tabs:
       - title: "Some Pane Title"
         position: "1/1"
         commands:
-         - "some command"
+         - !ENV "db authenticate ${DB_PASSWORD}"
          - "second command"
       - position: "1/2"
         focus: true
@@ -87,7 +87,9 @@ Details for each of the configuration objects above is given below
 | `focus`    | Pane to be in focus when itomate is finished. `focus: true`. There should only be one focus flag per Tab. If multiple are found, it will focus on the last pane evaluated.                                                                                                                                   |
 | `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                 |
 
-
+## Environment Variables
+Operating System Environment Variables can be used to create templates with secrets and variables. This allows itomate files to be safely committed to version control. Note in the above configuration example the line using the environment variable is prefixed with the  `!ENV` tag and then uses one or more Environment Variables
+wrapped in the `${ }` syntax.
 
 ## Layouts
 The parameter `position` in each pane decides where each of the window panes will be displayed. The position value has the format below
