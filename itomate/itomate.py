@@ -28,7 +28,7 @@ async def get_current_window(app, connection, new):
     return curr_win
 
 
-def read_config(config_path, tag='!SECRET'):
+def read_config(config_path, tag='!ENV'):
     if not os.path.isfile(config_path):
         raise ItomateException(f"Config file does not exist at {config_path}")
 
