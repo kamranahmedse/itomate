@@ -273,7 +273,9 @@ tabs:
 ## Contributors
 Special thanks to the contributors for making iTomate possible
 
-* [Zakaria](https://github.com/zakiuu)
+* [@zakiuu](https://github.com/zakiuu)
+* [@JohnLegrandRichards](https://github.com/JohnLegrandRichards)
+* [@zachvalenta](https://github.com/zachvalenta)
 * You?
 
 
