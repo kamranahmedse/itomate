@@ -52,6 +52,7 @@ Configuration file to set up the sessions has the format below
 
 ```yml
 version: "1.0"
+profile: "My Profile"
 tabs:
   window-1:
     root: "~/Documents/Projects/my_project"
