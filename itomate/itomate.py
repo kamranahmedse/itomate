@@ -11,10 +11,8 @@ import yaml
 default_config = 'itomate.yml'
 version = '0.3.1'
 
-
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
-
 
 # Gets the current window or creates one if needed
 async def get_current_window(app, connection, new):
@@ -26,7 +24,6 @@ async def get_current_window(app, connection, new):
     await curr_win.async_activate()
 
     return curr_win
-
 
 def read_config(config_path, tag='!ENV'):
     if not os.path.isfile(config_path):
@@ -56,7 +53,6 @@ def read_config(config_path, tag='!ENV'):
     with open(r'%s' % config_path) as file:
         return yaml.load(file, Loader=loader)
 
-
 async def render_tab_panes(tab, panes):
     # Create a dictionary with keys set to positions of panes
     positional_panes = {pane.get("position"): pane for pane in panes}
@@ -76,6 +72,9 @@ async def render_tab_panes(tab, panes):
         # we have the currently opened empty session already
         if vertical_pane_counter != 1:
             current_session = await current_session.async_split_pane(vertical=True)
+
+        if pane.get('badge'):
+                await add_badge(current_session, pane.get('badge'))
 
         # Cache the pane reference for further divisions later on
         sessions_ref[current_position] = current_session
@@ -108,6 +107,10 @@ async def render_tab_panes(tab, panes):
 
             # split the current session horizontally
             current_session = await current_session.async_split_pane(vertical=False)
+
+            if horizontal_pane.get('badge'):
+                await add_badge(current_session, horizontal_pane.get('badge'))
+
             # Cache the pane reference for later use
             sessions_ref[horizontal_position] = current_session
 
@@ -123,6 +126,10 @@ async def render_tab_panes(tab, panes):
 
     return sessions_ref
 
+async def add_badge(current_session, badge):
+    profile =  await current_session.async_get_profile()
+    await profile.async_set_badge_text(badge)
+    await profile.async_set_badge_color(iterm2.color.Color(213, 194, 194))
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -140,7 +147,6 @@ def parse_arguments():
     parser.add_argument('-n', '--new', help='Run in new window', action='store_true')
 
     return vars(parser.parse_args())
-
 
 async def activate(connection):
     args = parse_arguments()
@@ -182,10 +188,8 @@ async def activate(connection):
         await curr_tab.async_set_title(tab_title)
         await render_tab_panes(curr_tab, tab_panes)
 
-
 def main():
     iterm2.run_until_complete(activate)
-
 
 if __name__ == "__main__":
     main()
