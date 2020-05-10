@@ -9,7 +9,7 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.3.2'
+version = '0.3.3'
 
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
