@@ -157,7 +157,7 @@ async def activate(connection):
     config_path = args.get('config') if args.get('config') is not None else default_config
     config = read_config(config_path)
 
-    profile_name = config['profile'] or 'None'
+    profile_name = config.get('profile') or 'None'
 
     # Get the instance of currently running app
     app = await iterm2.async_get_app(connection, True)
