@@ -52,6 +52,7 @@ Configuration file to set up the sessions has the format below
 
 ```yml
 version: "1.0"
+profile: "My Profile"
 tabs:
   window-1:
     root: "~/Documents/Projects/my_project"
@@ -80,6 +81,7 @@ Details for each of the configuration objects above is given below
 | Key        | Description                                                                                                                                                                                                                                      |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `version`  | Refers to the itomate configuration version. Should always be 1.                                                                                                                                                                                 |
+| `profile`  | Name of the profile you would like to use for all panes. If using `-n` argument to launch a new window, then window specific profile settings will be applied                                                                                    |
 | `tabs`     | Windows or tabs in the iTerm window.                                                                                                                                                                                                             |
 | `window-1` | Replace with the unique project id e.g. `web-catalog-pim`                                                                                                                                                                                        |
 | `root`     | Root path for all panes within a tab                                                                                                                                                                                                             |
