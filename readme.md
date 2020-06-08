@@ -63,6 +63,7 @@ tabs:
         commands:
          - !ENV "db authenticate ${DB_PASSWORD}"
          - "second command"
+        prompt: "populated command"
       - position: "1/2"
         focus: true
         badge: "Jobs"
@@ -86,10 +87,11 @@ Details for each of the configuration objects above is given below
 | `window-1` | Replace with the unique project id e.g. `web-catalog-pim`                                                                                                                                                                                        |
 | `root`     | Root path for all panes within a tab                                                                                                                                                                                                             |
 | `title`    | Title to be shown in the title bar of the current tab                                                                                                                                                                                            |
-| `badge`    | Set the Badge Text of the pane
+| `badge`    | Set the Badge Text of the pane                                                                                                                                                                                                                   |
 | `position` | Position of the pane in the window. It has the format of `number1/number2` where `number1` refers to the column and `number2` refers to the row in the column. More on this later in the readme. `position` is the only required key in a pane   |
-| `focus`    | Pane to be in focus when itomate is finished. `focus: true`. There should only be one focus flag per Tab. If multiple are found, it will focus on the last pane evaluated.                                                                                                                                   |
+| `focus`    | Pane to be in focus when itomate is finished. `focus: true`. There should only be one focus flag per Tab. If multiple are found, it will focus on the last pane evaluated.                                                                       |
 | `commands` | List of commands to execute in the current pane.                                                                                                                                                                                                 |
+| `prompt`   | A command which will remain populated in the prompt after all `command`s have finished executing. The `prompt` command itself is not executed automatically.                                                                                     |
 
 ## Environment Variables
 Operating System Environment Variables can be used to create templates with secrets and variables. This allows itomate files to be safely committed to version control. Note in the above configuration example the line using the environment variable is prefixed with the  `!ENV` tag and then uses one or more Environment Variables
@@ -282,6 +284,7 @@ Special thanks to the contributors for making iTomate possible
 * [@zakiuu](https://github.com/zakiuu)
 * [@JohnLegrandRichards](https://github.com/JohnLegrandRichards)
 * [@zachvalenta](https://github.com/zachvalenta)
+* [@PSalant726](https://github.com/psalant726)
 * You?
 
 
@@ -292,6 +295,6 @@ There is [itermocil](https://github.com/TomAnthony/itermocil/blob/master/README.
 ## Contributions
 Feel free to submit pull requests, create issues, spread the word.
 
-## License 
+## License
 
 MIT &copy; [Kamran Ahmed](https://twitter.com/kamranahmedse)

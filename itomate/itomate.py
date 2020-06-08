@@ -9,7 +9,7 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.3.6'
+version = '0.3.7'
 
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
@@ -85,7 +85,7 @@ async def render_tab_panes(tab, panes, pofile_name):
         # Execute the commands for this pane
         pane_commands = pane.get('commands') or []
         for command in pane_commands:
-            await current_session.async_send_text(f"{command}\n")
+            await current_session.async_send_text(f"{command}")
 
     # For each of the vertical panes rendered above, render the sub panes now
     # e.g. 1/2, 1/3, 1/4, 1/5 ... 2/2, 2/3, 2/4, ... and so on
@@ -120,7 +120,7 @@ async def render_tab_panes(tab, panes, pofile_name):
             # Execute the commands for this pane
             pane_commands = horizontal_pane.get('commands') or []
             for command in pane_commands:
-                await current_session.async_send_text(f"{command}\n")
+                await current_session.async_send_text(f"{command}")
 
         await focus_session.async_activate()
 
@@ -181,11 +181,19 @@ async def activate(connection):
             continue
 
         # Set root path if it exists
-        if root_path:
-            for pane in tab_panes:
-                commands = pane.get('commands') or []
+        for pane in tab_panes:
+            commands = pane.get('commands') or []
+            if root_path:
                 commands.insert(0, f"cd {root_path}")
-                pane['commands'] = commands
+
+            for command in commands:
+                command += "\n"
+
+            prompt = pane.get('prompt') or ''
+            if prompt:
+                commands.append(prompt)
+
+            pane['commands'] = commands
 
         await curr_tab.async_set_title(tab_title)
         await render_tab_panes(curr_tab, tab_panes, profile_name)
