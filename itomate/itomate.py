@@ -9,24 +9,21 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.3.1'
-
+version = '0.3.7'
 
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
 
-
 # Gets the current window or creates one if needed
-async def get_current_window(app, connection, new):
+async def get_current_window(app, connection, new, profile_name):
     curr_win = app.current_window
 
     if not curr_win or new:
-        curr_win = await iterm2.Window.async_create(connection)
+        curr_win = await iterm2.Window.async_create(connection, profile=profile_name)
 
     await curr_win.async_activate()
 
     return curr_win
-
 
 def read_config(config_path, tag='!ENV'):
     if not os.path.isfile(config_path):
@@ -56,8 +53,7 @@ def read_config(config_path, tag='!ENV'):
     with open(r'%s' % config_path) as file:
         return yaml.load(file, Loader=loader)
 
-
-async def render_tab_panes(tab, panes):
+async def render_tab_panes(tab, panes, pofile_name):
     # Create a dictionary with keys set to positions of panes
     positional_panes = {pane.get("position"): pane for pane in panes}
 
@@ -75,7 +71,10 @@ async def render_tab_panes(tab, panes):
         # For the first counter, we don't need to split because
         # we have the currently opened empty session already
         if vertical_pane_counter != 1:
-            current_session = await current_session.async_split_pane(vertical=True)
+            current_session = await current_session.async_split_pane(vertical=True, profile=pofile_name)
+
+        if pane.get('badge'):
+                await add_badge(current_session, pane.get('badge'))
 
         # Cache the pane reference for further divisions later on
         sessions_ref[current_position] = current_session
@@ -86,7 +85,7 @@ async def render_tab_panes(tab, panes):
         # Execute the commands for this pane
         pane_commands = pane.get('commands') or []
         for command in pane_commands:
-            await current_session.async_send_text(f"{command}\n")
+            await current_session.async_send_text(f"{command}")
 
     # For each of the vertical panes rendered above, render the sub panes now
     # e.g. 1/2, 1/3, 1/4, 1/5 ... 2/2, 2/3, 2/4, ... and so on
@@ -107,8 +106,12 @@ async def render_tab_panes(tab, panes):
                 continue
 
             # split the current session horizontally
-            current_session = await current_session.async_split_pane(vertical=False)
-            # Cache the pane reference for later use
+            current_session = await current_session.async_split_pane(vertical=False, profile=pofile_name)
+
+            if horizontal_pane.get('badge'):
+                await add_badge(current_session, horizontal_pane.get('badge'))
+
+           # Cache the pane reference for later use
             sessions_ref[horizontal_position] = current_session
 
             if horizontal_pane.get('focus'):
@@ -117,12 +120,16 @@ async def render_tab_panes(tab, panes):
             # Execute the commands for this pane
             pane_commands = horizontal_pane.get('commands') or []
             for command in pane_commands:
-                await current_session.async_send_text(f"{command}\n")
+                await current_session.async_send_text(f"{command}")
 
         await focus_session.async_activate()
 
     return sessions_ref
 
+async def add_badge(current_session, badge):
+    profile =  await current_session.async_get_profile()
+    await profile.async_set_badge_text(badge)
+    await profile.async_set_badge_color(iterm2.color.Color(213, 194, 194))
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -141,7 +148,6 @@ def parse_arguments():
 
     return vars(parser.parse_args())
 
-
 async def activate(connection):
     args = parse_arguments()
     if args.get('version'):
@@ -151,9 +157,11 @@ async def activate(connection):
     config_path = args.get('config') if args.get('config') is not None else default_config
     config = read_config(config_path)
 
+    profile_name = config.get('profile') or 'Default'
+
     # Get the instance of currently running app
     app = await iterm2.async_get_app(connection, True)
-    initial_win = await get_current_window(app, connection, args.get('new'))
+    initial_win = await get_current_window(app, connection, args.get('new'), profile_name)
     curr_tab = initial_win.current_tab
 
     # Render all the required tabs and execute the commands
@@ -173,19 +181,25 @@ async def activate(connection):
             continue
 
         # Set root path if it exists
-        if root_path:
-            for pane in tab_panes:
-                commands = pane.get('commands') or []
+        for pane in tab_panes:
+            commands = pane.get('commands') or []
+            if root_path:
                 commands.insert(0, f"cd {root_path}")
-                pane['commands'] = commands
+
+            for command in commands:
+                command += "\n"
+
+            prompt = pane.get('prompt') or ''
+            if prompt:
+                commands.append(prompt)
+
+            pane['commands'] = commands
 
         await curr_tab.async_set_title(tab_title)
-        await render_tab_panes(curr_tab, tab_panes)
-
+        await render_tab_panes(curr_tab, tab_panes, profile_name)
 
 def main():
     iterm2.run_until_complete(activate)
-
 
 if __name__ == "__main__":
     main()
