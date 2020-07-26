@@ -9,7 +9,7 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.3.7'
+version = '0.3.8'
 
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
@@ -183,13 +183,14 @@ async def activate(connection):
         # Set root path if it exists
         for pane in tab_panes:
             commands = pane.get('commands') or []
+
             if root_path:
                 commands.insert(0, f"cd {root_path}")
 
-            for command in commands:
-                command += "\n"
+            commands = ['{0}\n'.format(command) for command in commands]
 
             prompt = pane.get('prompt') or ''
+
             if prompt:
                 commands.append(prompt)
 
