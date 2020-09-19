@@ -9,7 +9,7 @@ import iterm2
 import yaml
 
 default_config = 'itomate.yml'
-version = '0.3.8'
+version = '0.3.9'
 
 class ItomateException(Exception):
     """Raise for our custom exceptions"""
@@ -149,11 +149,15 @@ def parse_arguments():
     return vars(parser.parse_args())
 
 async def activate(connection):
-    args = parse_arguments()
+    try:
+        args = parse_arguments()
+    except SystemExit:
+        return
+
     if args.get('version'):
         print(version)
         return
-
+    
     config_path = args.get('config') if args.get('config') is not None else default_config
     config = read_config(config_path)
 
